@@ -1,5 +1,4 @@
 require 'colorize'
-require 'debugger'
 
 require './piece.rb'
 
@@ -70,6 +69,21 @@ class Board
     @matrix[row][col] = nil
   end
   
+  def dup
+    new_board = Board.new(false)
+    
+    @matrix.each_with_index do |row, index1|
+      row.each_with_index do |piece, index2|
+        next if piece.nil?
+        
+        new_board[[index1, index2]] =
+            Piece.new([index1, index2], piece.color, new_board)
+      end
+    end
+    
+    new_board
+  end
+  
   private
   
   def add_pieces_to_matrix
@@ -86,13 +100,4 @@ class Board
       end
     end
   end
-end
-
-if __FILE__ == $PROGRAM_NAME
-  board = Board.new
-  board.display_board
-  
-  board[[6,1]].perform_slide([5,2])
-  
-  board.display_board
 end
