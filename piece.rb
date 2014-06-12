@@ -19,13 +19,6 @@ class Piece
     end
   end
   
-  def perform_slide!(pos)
-    @board.move(self, @location, pos)
-    @location = pos
-    
-    true
-  end
-  
   def perform_jump(positions)
     dup_board = @board.dup
     
@@ -52,6 +45,21 @@ class Piece
     end
   end
   
+  def to_s
+    rank = @king ? :king : :man
+    
+    (SYMPOLS[rank] + " ").colorize(:color => @color)
+  end
+  
+  protected
+  
+  def perform_slide!(pos)
+    @board.move(self, @location, pos)
+    @location = pos
+    
+    true
+  end
+  
   def perform_jump!(beginning, positions)
     previous_location = beginning
     positions.each_with_index do |position, index|
@@ -65,12 +73,6 @@ class Piece
     end
     
     true
-  end
-  
-  def to_s
-    rank = @king ? :king : :man
-    
-    (SYMPOLS[rank] + " ").colorize(:color => @color)
   end
   
   private
