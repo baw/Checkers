@@ -35,8 +35,11 @@ class Game
         
         retry
       end
+    rescue DifferentPieceColorPlayerColor => e
+      puts "You can only move pieces of your color"
       
       system("clear")
+      retry
     end
     
     puts "Someone won!"
