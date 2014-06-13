@@ -1,3 +1,5 @@
+require "./errors.rb"
+
 class Piece
   attr_reader :color, :location
   
@@ -8,6 +10,14 @@ class Piece
     @location, @color, @board = location, color, board
     
     @king = false
+  end
+  
+  def perform_moves(positions)
+    if valid_move_seq?(positions)
+      perform_moves!(positions)
+    else
+      raise InvalidMoveError
+    end
   end
   
   def perform_slide(pos)
@@ -53,6 +63,18 @@ class Piece
   
   protected
   
+  def perform_moves!(positions)
+    if positions.length == 1
+      results = perform_slide(positions.first)
+      
+      results = perform_jump(positions) unless results
+      
+      results
+    else
+      perform_jump(positions)
+    end
+  end
+  
   def perform_slide!(pos)
     @board.move(self, @location, pos)
     @location = pos
@@ -76,6 +98,12 @@ class Piece
   end
   
   private
+  
+  def valid_move_seq?(positions)
+    dup_board = @board.dup
+    
+    dup_board[@location].perform_moves!(positions)
+  end
   
   def moves(from_location, allow_take = false)
     [].tap do |moves_array|
