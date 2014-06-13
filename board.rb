@@ -61,6 +61,8 @@ class Board
     
     @matrix[from_row][from_col] = nil
     @matrix[to_row][to_col] = piece
+    
+    piece.promote if to_row == 0 || @matrix.length
   end
   
   def take_piece(location)

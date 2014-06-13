@@ -12,7 +12,13 @@ class Piece
     @king = false
   end
   
-  def perform_moves(positions)
+  def promote
+    @king = true
+  end
+  
+  def perform_moves(positions, player_color)
+    raise DifferentPieceColorPlayerColor if player_color != @color
+    
     if valid_move_seq?(positions)
       perform_moves!(positions)
     else
@@ -110,15 +116,27 @@ class Piece
       MOVES_DIFFS.each do |dy, dx|
         location = [from_location[0] + dy, from_location[1] + dx]
         
-        if @board.on_board?(location)
-          if @board.no_piece_at_location?(location) || allow_take
-            if right_direction?(location) || @king
-              moves_array << location
-            end
+        moves_array << location if valid_move?(location, allow_take)
+      end
+    end
+  end
+  
+  def valid_move?(location, allow_take)
+    if @board.on_board?(location)
+      if right_direction?(location) || @king
+        if allow_take
+          if !@board.no_piece_at_location?(location)
+            true
+          end
+        else
+          if @board.no_piece_at_location?(location)
+            true
           end
         end
       end
     end
+    
+    false
   end
   
   def right_direction?(new_location)
