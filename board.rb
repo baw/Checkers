@@ -84,6 +84,14 @@ class Board
     new_board
   end
   
+  def pieces(color)
+    @matrix.flatten.compact.select { |piece| piece.color == color }
+  end
+  
+  def won?
+    pieces(:black) == 0 || pieces(:white).length == 0
+  end
+  
   private
   
   def add_pieces_to_matrix
