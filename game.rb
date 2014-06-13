@@ -10,40 +10,31 @@ class Game
   
   def play
     until @board.won?
+      request_move(@player1)
       
-      
-      begin
-        @board.display_board
-        move = @player1.get_move
-        
-        @board[move.first].perform_moves(move.drop(1))
-      rescue InvalidMoveError => e
-        puts e.message
-        
-        retry
-      end
-      
-      system("clear")
-      
-      begin
-        @board.display_board
-        move = @player2.get_move
-        
-        @board[move.first].perform_moves(move.drop(1))
-      rescue InvalidMoveError => e
-        puts e.message
-        
-        retry
-      end
-    rescue DifferentPieceColorPlayerColor => e
-      puts "You can only move pieces of your color"
-      
-      system("clear")
-      retry
+      request_move(@player2)
     end
     
     puts "Someone won!"
+  end
+  
+  def request_move(player)
+    begin
+      @board.display_board
+      move = player.get_move
+      
+      @board[move.first].perform_moves(move.drop(1), player.piece_color)
+    rescue InvalidMoveError => e
+      puts "Invalid Move: Please try again."
+      
+      retry
+    rescue DifferentPieceColorPlayerColor => e
+      puts "You can only move pieces of your color"
+      
+      retry
+    end
     
+    system("clear")
   end
 end
 
