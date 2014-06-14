@@ -1,6 +1,6 @@
 require 'colorize'
 
-require './piece.rb'
+require 'piece.rb'
 
 class Board
   def initialize(add_pieces = true)

@@ -1,4 +1,4 @@
-require "./errors.rb"
+require "errors.rb"
 
 class Piece
   attr_reader :color, :location
