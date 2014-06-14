@@ -24,4 +24,36 @@ describe Board do
       end
     end
   end
+  
+  describe "#[]" do
+    it "returns the piece at the location entered"
+  end
+  
+  describe "#[]=" do
+    it "changes the piece at the location entered with what is supplied"
+  end
+  
+  describe "#on_board?" do
+    
+  end
+  
+  describe "#no_piece_at_location?" do
+    
+  end
+  
+  describe "#move" do
+    
+  end
+  
+  describe "#take_piece" do
+    
+  end
+  
+  describe "#dup" do
+    
+  end
+  
+  describe "#won?" do
+    
+  end
 end
